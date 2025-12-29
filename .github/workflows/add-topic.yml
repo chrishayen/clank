@@ -6,6 +6,8 @@ on:
 jobs:
   add-topic:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
       - name: Add 'clank' topic to repository
         env:
