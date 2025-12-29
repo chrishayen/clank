@@ -21,7 +21,7 @@ jobs:
             --jq '.names | join(",")')
           
           # Combine existing topics with 'clank' if not already present
-          if echo "$existing_topics" | grep -q "clank"; then
+          if echo ",$existing_topics," | grep -q ",clank,"; then
             echo "Topic 'clank' already exists"
             topics="$existing_topics"
           else
@@ -37,7 +37,11 @@ jobs:
           IFS=',' read -ra TOPIC_ARRAY <<< "$topics"
           topic_args=()
           for topic in "${TOPIC_ARRAY[@]}"; do
-            topic_args+=(-f "names[]=$topic")
+            # Trim whitespace from topic name
+            topic=$(echo "$topic" | xargs)
+            if [ -n "$topic" ]; then
+              topic_args+=(-f "names[]=$topic")
+            fi
           done
           
           gh api \
