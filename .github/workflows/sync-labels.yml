@@ -11,12 +11,15 @@ on:
 jobs:
   sync-labels:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Sync labels
-        uses: EndBug/label-sync@v2
+        uses: EndBug/label-sync@da00f2c11559d36685bbaa7cfdd2746f1a4dda0e # v2.3.4
         with:
           config-file: .github/labels.yml
           token: ${{ secrets.GITHUB_TOKEN }}
