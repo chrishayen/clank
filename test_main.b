@@ -1,5 +1,3 @@
-import process;
-
 const GH_TOKEN_ENV := "GH_TOKEN";
 const POLL_INTERVAL_MS := 20000;
 const ERROR_RETRY_MS := 60000;
