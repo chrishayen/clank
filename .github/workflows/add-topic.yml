@@ -6,8 +6,6 @@ on:
 jobs:
   add-topic:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: Add 'clank' topic to repository
         env:
@@ -43,8 +41,9 @@ jobs:
           IFS=',' read -ra TOPIC_ARRAY <<< "$topics"
           topic_args=()
           for topic in "${TOPIC_ARRAY[@]}"; do
-            # Trim whitespace from topic name using sed
-            topic=$(echo "$topic" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            # Trim whitespace from topic name using bash parameter expansion
+            topic="${topic#"${topic%%[![:space:]]*}"}"
+            topic="${topic%"${topic##*[![:space:]]}"}"
             if [ -n "$topic" ]; then
               topic_args+=(-f "names[]=$topic")
             fi
