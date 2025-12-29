@@ -5,12 +5,12 @@ const POLL_INTERVAL_MS := 20000;
 const ERROR_RETRY_MS := 60000;
 
 fn main() {
-    token := process.env(GH_TOKEN_ENV) or {
+    _token := process.env(GH_TOKEN_ENV) or {
         print("Error: GH_TOKEN environment variable is not set");
         return;
     };
 
-    result := process.shell("gh auth status") or {
+    process.shell("gh auth status") or {
         print("Error: GitHub authentication failed");
         print(err.message);
         return;
