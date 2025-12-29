@@ -1,0 +1,2 @@
+- The application is written in bishop https://github.com/chrishayen/bishop
+- bishop is a new languages, so if a necessary language feature is missing you should stop and create an issue in the bishop repo
