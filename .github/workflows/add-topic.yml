@@ -21,7 +21,8 @@ jobs:
             --jq '.names | join(",")')
           
           # Combine existing topics with 'clank' if not already present
-          if echo ",$existing_topics," | grep -q ",clank,"; then
+          # Use regex for exact match: either at start, end, or between commas
+          if echo "$existing_topics" | grep -qE "(^|,)clank(,|$)"; then
             echo "Topic 'clank' already exists"
             topics="$existing_topics"
           else
@@ -37,8 +38,8 @@ jobs:
           IFS=',' read -ra TOPIC_ARRAY <<< "$topics"
           topic_args=()
           for topic in "${TOPIC_ARRAY[@]}"; do
-            # Trim whitespace from topic name
-            topic=$(echo "$topic" | xargs)
+            # Trim whitespace from topic name using sed
+            topic=$(echo "$topic" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
             if [ -n "$topic" ]; then
               topic_args+=(-f "names[]=$topic")
             fi
